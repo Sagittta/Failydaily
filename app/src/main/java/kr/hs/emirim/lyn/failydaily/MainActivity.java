@@ -18,6 +18,7 @@ import android.content.res.Configuration;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,38 +39,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<CategoryInfo> categoryInfoArrayList = new ArrayList<>();
-    MyAdapter myAdapter = new MyAdapter(categoryInfoArrayList);       // -> list는 데이터베이스에 있는 리스트 넣으면 될듯
+    MyAdapter myAdapter;        // -> list는 데이터베이스에 있는 리스트 넣으면 될듯
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initLayout();
-      
         user = new UseDB(this);
         user.open();
-//        user.makeCategory("학교");
-//        user.makeCategory("친구");
+        user.makeCategory("학교");
+        user.makeCategory("친구");
 
-//        user.create();
+        user.create();
 
-        // user.close();
+        initLayout();
+
+//        user.close();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent intent;
         switch (menuItem.getItemId()) {
-            case R.id.action_graph :
+            case R.id.action_graph:
                 intent = new Intent(this, CtGraphActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_category :
+            case R.id.action_category:
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_myFairy :
+            case R.id.action_myFairy:
                 intent = new Intent(this, FairyListActivity.class);
                 startActivity(intent);
                 break;
@@ -107,15 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
 
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        categoryInfoArrayList.add(new CategoryInfo("학교"));
-        categoryInfoArrayList.add(new CategoryInfo("친구"));
-        mRecyclerView.setAdapter(myAdapter);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
         navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
         drawerToggle = new ActionBarDrawerToggle(
@@ -127,40 +119,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         drawerLayout.addDrawerListener(drawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        myAdapter = new MyAdapter(categoryInfoArrayList);
+
+        // 기본 카테고리 세팅.
+//        categoryInfoArrayList = user.selectCategories();
+//        for (CategoryInfo c:categoryInfoArrayList) {
+//            System.out.println(c.name);
+//            categoryInfoArrayList.add(new CategoryInfo(c.name));
+//        }
+//        mRecyclerView.setAdapter(myAdapter);
+
+        categoryInfoArrayList.add(new CategoryInfo("학교"));
+        categoryInfoArrayList.add(new CategoryInfo("친구"));
+        mRecyclerView.setAdapter(myAdapter);
+
+
+
     }
 
     public void OnClickHandler(View view) {
-        View dialogView = getLayoutInflater().inflate(R.layout.activity_sub, null);
-        final EditText nameEditText = (EditText)dialogView.findViewById(R.id.name);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                String name = "카테고리 이름은 : " + nameEditText.getText().toString();
-
-//                user.makeCategory(nameEditText.getText().toString());
-
-                categoryInfoArrayList.add(new CategoryInfo(nameEditText.getText().toString()));
-                mRecyclerView.setAdapter(myAdapter);
-
-                Toast.makeText(getApplicationContext(), nameEditText.getText().toString() + " 카테고리가 생성되었습니다.", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        Intent intent;
+        intent = new Intent(this, NoteListActivity.class);
+        startActivity(intent);
     }
+
+//    public void OnClickHandler(View view) {
+//        View dialogView = getLayoutInflater().inflate(R.layout.activity_sub, null);
+//        final EditText nameEditText = (EditText) dialogView.findViewById(R.id.name);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setView(dialogView);
+//
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                String name = "카테고리 이름은 : " + nameEditText.getText().toString();
+//
+//                user.makeCategory(nameEditText.getText().toString());
+//
+//                categoryInfoArrayList.add(new CategoryInfo(nameEditText.getText().toString()));
+//                mRecyclerView.setAdapter(myAdapter);
+//
+//                Toast.makeText(getApplicationContext(), nameEditText.getText().toString() + " 카테고리가 생성되었습니다.", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//    }
 
     @Override
     public void onBackPressed() {

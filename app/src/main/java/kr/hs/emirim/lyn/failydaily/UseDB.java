@@ -30,15 +30,17 @@ public class UseDB {
         }
 
         @Override
-        public void onCreate(SQLiteDatabase db){
+        public void onCreate(SQLiteDatabase db) {
             db.execSQL(CreateDB.DataBases._CREATE);
             db.execSQL(CreateDB.DataBases._CREATE2);
+            db.execSQL(CreateDB.DataBases._CREATE3);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             db.execSQL("DROP TABLE IF EXISTS "+CreateDB.DataBases._TABLENAME1);
             db.execSQL("DROP TABLE IF EXISTS "+CreateDB.DataBases._TABLENAME2);
+            db.execSQL("DROP TABLE IF EXISTS "+CreateDB.DataBases._TABLENAME3);
             onCreate(db);
         }
     }
@@ -75,12 +77,12 @@ public class UseDB {
         mDB.delete(CreateDB.DataBases._TABLENAME3, "name="+name, null);
     }
     // Select Category
-    public ArrayList<String> selectCategories(){
-        ArrayList<String> categories = new ArrayList<>();
+    public ArrayList<CategoryInfo> selectCategories(){
+        ArrayList<CategoryInfo> categories = new ArrayList<>();
         String sql = "select * from " + CreateDB.DataBases._TABLENAME3 ;
         Cursor cursor = mDB.rawQuery(sql, null);
         while(cursor.moveToNext()){
-            categories.add(cursor.getString(0));
+            categories.add(new CategoryInfo(cursor.getString(0)));
         }
         return categories;
     }

@@ -7,7 +7,7 @@
     tools:context=".NoteListActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/dl_main_drawer_root"
+        android:id="@+id/dl_note_drawer_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
             layout="@layout/activity_note_list_content"/>
 
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nv_main_navigation_root"
+            android:id="@+id/nv_note_navigation_root"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"

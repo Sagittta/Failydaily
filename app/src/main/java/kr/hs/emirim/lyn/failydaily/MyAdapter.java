@@ -18,6 +18,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MyViewHolder(View view) {
             super(view);
             ctName = view.findViewById(R.id.ct_name);
+
         }
     }
 

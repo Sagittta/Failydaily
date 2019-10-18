@@ -24,7 +24,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="20sp"
-            tools:text="학교 생활" />
+            tools:text="학교 생활"
+            android:onClick="OnClickHandler"/>
 
     </LinearLayout>
 

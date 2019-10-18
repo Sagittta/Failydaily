@@ -55,7 +55,7 @@ public class NoteListActivity extends AppCompatActivity implements NavigationVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
 
-        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView = findViewById(R.id.recycler_view2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -64,8 +64,8 @@ public class NoteListActivity extends AppCompatActivity implements NavigationVie
         categoryInfoArrayList.add(new CategoryInfo("일기2"));
         mRecyclerView.setAdapter(myAdapter);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
-        navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
+        drawerLayout = (DrawerLayout) findViewById(R.id.dl_note_drawer_root);
+        navigationView = (NavigationView) findViewById(R.id.nv_note_navigation_root);
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -122,34 +122,8 @@ public class NoteListActivity extends AppCompatActivity implements NavigationVie
 
     public void OnClickHandler(View view) {
         //TODO 요정(+버튼)을 눌렀을 때 일기화면에서 다시 돌아와서 추가되어 있어야 함.
-//        View dialogView = getLayoutInflater().inflate(R.layout.activity_sub, null);
-//        final EditText nameEditText = (EditText)dialogView.findViewById(R.id.name);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(dialogView);
-//
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String name = "카테고리 이름은 : " + nameEditText.getText().toString();
-//
-//                user.makeCategory(nameEditText.getText().toString());
-//                categoryInfoArrayList.add(new CategoryInfo(nameEditText.getText().toString()));
-//                mRecyclerView.setAdapter(myAdapter);
-//
-//                Toast.makeText(getApplicationContext(), nameEditText.getText().toString() + " 카테고리가 생성되었습니다.", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
